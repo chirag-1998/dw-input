@@ -25,6 +25,7 @@
   "homepage": "https://github.com/DreamworldSolutions/dw-input#readme",
   "dependencies": {
     "@dreamworld/dw-form": "^1.0.1",
+    "@dreamworld/material-styles": "^1.1.0",
     "@material/textfield": "^3.1.0",
     "lit-element": "^2.2.1"
   },

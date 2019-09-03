@@ -87,3 +87,57 @@ customElements.define('custom-input', CustomInput);
 
 <dw-input value="12" originalValue="12" highLightOnChanged></dw-input>
 ```
+
+# dw-textarea
+- The element provide way to autogrow textarea with non decore style.
+
+## Install
+  
+```html
+npm install @dw/dw-input
+```
+## Usage
+```javascript
+import  '@dreamworld/dw-input/dw-textarea';
+```
+## Events
+-  `value-changed` event with input value.
+	- Fires this event on input value is changed
+-  `enter` event with input value and event object.
+	- Fires this user press `enter` key on input.
+-  `esc` event with input value and event object.
+	- Fires this event if user press `esc` key on input.
+- `blur` event with input value and event object.
+  - Fires this event on textarea blur event.
+
+## Methods 
+-  `focus` - Focus in the input
+-  `focusToEnd`- Focus in the input at last
+-  `blur` - Remove the input focus
+-  `validate` - Call this to validate input. Returns false if value is invalid.
+
+## Features
+- Auto grow input.
+- Fixed height input with scroll
+
+### Auto grow input.
+- Provide auto grow input based on `minHeight` and `maxHeight` property.
+- Input auto grows from `minHeight` to `maxHeight` after that they show scroll.
+
+#### Example with Auto grow input:
+```html
+<dw-textarea  .minHeight=${80}  .maxHeight=${200}></dw-textarea>
+```
+### Fixed height input with scroll
+- Provide input with fixed height after that they show scroll.
+- Passed to `minHeight` to input to show fix height
+
+#### Example Fixed height input with scroll:
+```html
+<dw-textarea  .autoGrow=${false}  .minHeight=${70} .maxHeight=${70}></dw-textarea>
+```
+## Other examples
+- Read only input
+```html
+<dw-textarea  .minHeight=${80}  .maxHeight=${200}  .readOnly=${true}></dw-textarea>
+```
