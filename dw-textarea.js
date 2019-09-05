@@ -221,6 +221,20 @@ export class DwTextarea extends LitElement {
   }
 
   /**
+   * Returns true if `value` is valid
+   */
+  validity() { 
+    return this.shadowRoot.querySelector('#textarea').validity();
+  }
+
+  /**
+   * Checkes input validity
+   */
+  checkValidity() { 
+    return this.shadowRoot.querySelector('#textarea').checkValidity();
+  }
+
+  /**
    * Resize input based on content.
    * @protected
    */

@@ -15,6 +15,7 @@ import { MDCTextFieldCharacterCounter } from '@material/textfield/character-coun
 import { TextfieldStyle } from './mdc-text-field-css.js';
 import { DwFormElement } from '@dreamworld/dw-form/dw-form-element';
 import '@dreamworld/dw-icon-button/dw-icon-button';
+import './dw-textarea.js';
 
 export class DwInput extends DwFormElement(LitElement) {
   static get styles() {
@@ -270,11 +271,6 @@ export class DwInput extends DwFormElement(LitElement) {
        */
       multiline: { type: Boolean },
       
-      /**
-       * The initial number of rows for text-field, used only in the case of `multiline=true`.
-       */
-      rows: { type: Number },
-      
       dense: { type: Boolean },
 
       /**
@@ -320,6 +316,23 @@ export class DwInput extends DwFormElement(LitElement) {
        */
       clickableIcon: { type: Boolean },
       
+      /**
+       * Minimum height of textarea
+       * Applicable when `multiline` is true
+       */
+      minHeight: { type: Number },
+
+      /**
+       * Max height of textarea. After that vertical scroll is available.
+       * Applicable when `multiline` is true
+       */
+      maxHeight: { type: Number },
+
+      /**
+       * Disabled enter in input.
+       * Applicable when `multiline` is true
+       */
+      disabledEnter: { type: Boolean },
 
       /**
        * True when `originalValue` available and it's not equal to `value`
@@ -417,11 +430,11 @@ export class DwInput extends DwFormElement(LitElement) {
     this.invalid = false;
     this.autoSelect = false;
     this.multiline = false;
-    this.rows = 2;
     this.dense = false;
     this.hintPersistent = false;
     this.charCounter = false;
     this.maxLength = 524288;
+    this.minHeight = 42;
 
     this.valueEqualityChecker = function (value, originalValue) { 
       return value != originalValue;
@@ -450,20 +463,20 @@ export class DwInput extends DwFormElement(LitElement) {
 
   get textareaTemplate() {
     return html`
-      <textarea id="tf-outlined"
+      <dw-textarea id="tf-outlined"
         class="mdc-text-field__input"
-        rows="${this.rows}"
         .value="${this.value}"
         .name="${this.name}"
         ?disabled="${this.disabled}"
         ?required="${this.required}"
         ?readonly="${this.readOnly}"
-        .maxLength="${this.maxLength}"
-        ?charCounter="${this.charCounter}"
         .placeholder="${this.placeholder}"
+        .minHeight="${this.minHeight}"
+        .maxHeight="${this.maxHeight}"
+        .disabledEnter="${this.disabledEnter}"
         @input="${this._onInput}"
         @blur = "${this._onInputBlur}" >
-      </textarea>
+      </dw-textarea>
     `;
   }
 
