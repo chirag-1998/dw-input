@@ -475,11 +475,34 @@ export class DwInput extends DwFormElement(LitElement) {
     new MDCTextFieldCharacterCounter(document.querySelector('.mdc-text-field-character-counter'));
   }
 
+  layout() {
+    this._textFieldInstance.layout();
+  }
+
   /**
    * Sets formatted value
    */
   _setFormattedValue() { 
-    this._formattedValue = this.formattedValueGetter(this.value);
+    let formattedValue = this.formattedValueGetter(this.value);
+    
+    if(this._formattedValue !== formattedValue){
+      this._formattedValue = formattedValue;
+      return;
+    }
+    
+    // Below logic is for when value is same on blur input will not show formatted value as value is not changed
+    // Problem with example::  Write 1234 it will format to 1,234. on focus it will be 1234. now blur. value will not be changed to 1,234
+    this._formattedValue = null;
+    
+    setTimeout(() => { 
+      this._formattedValue = formattedValue;
+      
+      // For proper label placement
+      setTimeout(() => { 
+        this.layout();
+      });
+    });
+    
   }
 
   /**
@@ -579,7 +602,7 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     if (this.validator) { 
-      isValid = this.validator(this.value, this._formattedValue); 
+      isValid = this.validator(this.value, this._formattedValue);
     }
 
     return isValid;
