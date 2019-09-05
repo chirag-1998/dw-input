@@ -225,7 +225,6 @@ export class DwTextarea extends LitElement {
    * @protected
    */
   _onKeyDown(e) {
-    this._resize();
     var keyCode = e.keyCode || e.which;
     if (keyCode === 13) {
       this._onEnterKeyDown(e);
@@ -275,6 +274,7 @@ export class DwTextarea extends LitElement {
    */
   _onInput() {
     this.value = this._textarea.value;
+    this._resize();
     this.dispatchEvent(new CustomEvent('value-changed', {
       detail: { value: this.value }
     }));
