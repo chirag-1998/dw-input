@@ -9,12 +9,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html, css } from 'lit-element';
-import {unsafeHTML} from 'lit-html/directives/unsafe-html.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { MDCTextField } from '@material/textfield';
 import { MDCTextFieldCharacterCounter } from '@material/textfield/character-counter';
 import { TextfieldStyle } from './mdc-text-field-css.js';
 import { DwFormElement } from '@dreamworld/dw-form/dw-form-element';
+import '@dreamworld/dw-icon-button/dw-icon-button';
 
 export class DwInput extends DwFormElement(LitElement) {
   static get styles() {
@@ -25,6 +25,9 @@ export class DwInput extends DwFormElement(LitElement) {
           display: block;
           outline:none;
           position: relative;
+          --dw-input-outlined-idle-border-color: var(--mdc-theme-text-secondary);
+          --dw-input-outlined-hover-border-color: var(--mdc-theme-text-primary);
+          --dw-input-outlined-disabled-border-color: var(--mdc-theme-text-disabled);
         }
 
         :host[hidden] {
@@ -45,6 +48,27 @@ export class DwInput extends DwFormElement(LitElement) {
         .mdc-text-field--focused:not(.mdc-text-field--invalid):not(.mdc-text-field--disabled) .mdc-floating-label {
           color: var(--mdc-theme-primary, rgba(98, 0, 238, 0.87));
         }
+
+        /* STARTS: style for dark/light theme */
+        .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input{
+          color: var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87))
+        }
+
+        .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input::placeholder,
+        .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):not(.mdc-text-field--invalid) .mdc-floating-label{
+          color: var(--mdc-theme-text-secondary ,rgba(0, 0, 0, 0.6));
+        }
+
+        .mdc-text-field.mdc-text-field--disabled .mdc-text-field__input::placeholder,
+        .mdc-text-field.mdc-text-field--disabled .mdc-text-field__input,
+        .mdc-text-field.mdc-text-field--disabled .mdc-floating-label{
+          color: var(--mdc-theme-text-disabled ,rgba(0, 0, 0, 0.38));
+        }
+
+        .mdc-text-field:not(.mdc-text-field--disabled) + .mdc-text-field-helper-line .mdc-text-field-helper-text{
+          color: var(--mdc-theme-text-secondary, rgba(0, 0, 0, 0.6));
+        }
+        /* ENDS: style for dark theme */
         
         /* Hide right bottom corner icon */
         textarea{
@@ -103,18 +127,21 @@ export class DwInput extends DwFormElement(LitElement) {
         }
 
         /* STARTS: Change border/label color when value is changed */
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__leading,
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__notch,
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__trailing,
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__leading,
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__notch,
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing{
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__leading,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__notch,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__trailing,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__leading,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__notch,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__leading,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__notch,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing{
           border-color: var(--mdc-theme-secondary);
           border-width: 2px;
         }
 
-        :host([_isValueUpdated]) .mdc-text-field--focused .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-floating-label::after,
-        :host([_isValueUpdated]) .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-floating-label{
+        :host([_valueUpdated]) .mdc-text-field--focused .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-floating-label::after,
+        :host([_valueUpdated]) .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-floating-label{
           color: var(--mdc-theme-secondary);
         }
         /* ENDS: Change  border/label color when value is changed */
@@ -129,6 +156,25 @@ export class DwInput extends DwFormElement(LitElement) {
           font-size: 1rem;
         }
         /* ENDS: Style for dense field */
+        
+        .mdc-text-field + .mdc-text-field-helper-line{
+           position: var(--dw-input-helper-line-position, relative);
+        }
+  
+        .mdc-text-field__icon{
+          outline: none;
+        }
+      
+        dw-icon-button{
+          width: 24px;
+          height: 24px;
+        }
+
+        :host([clickableIcon]) dw-icon-button.mdc-text-field__icon{
+          pointer-events: auto;
+          cursor: pointer;
+        }
+  
       `
     ];
   }
@@ -167,7 +213,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
       /**
        * A pattern to validate the `input` with. Checked during `validate()`.
-       * 
+       * Doens't work when custom validator is provided through `validator` property.
        */
       pattern: { type: String },
 
@@ -179,12 +225,12 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * Leading icon to display in input
        */
-      prefixSvgIcon: { type: String },
+      icon: { type: String },
 
        /**
        * Trailing icon to display in input
        */
-      sufixSvgIcon: { type: String },
+      iconTrailing: { type: String },
 
       /**
        * A placeholder text in addition to the label.
@@ -202,13 +248,15 @@ export class DwInput extends DwFormElement(LitElement) {
       readOnly: { type: Boolean},
 
       /**
-       * Set this to apply custom validation of input
-       * It must be return Boolean
+       * Set this to apply custom validation of input. Receives value to be validated as argument.
+       * It must return Boolean.
        */
       validator: { type: Function },
 
       /**
-       *  True if the last call to `validate` is invalid.
+       * Set to `true` when the last call to `validate` is invalid. Mostly, you don't need to manually set/change this
+       * property. It's automatically updated as the part of the validation logic. Generally, validation is performed
+       * on blur & value change if the current value is invalid.
        */
       invalid: { type: Boolean },
 
@@ -223,11 +271,11 @@ export class DwInput extends DwFormElement(LitElement) {
       multiline: { type: Boolean },
       
       /**
-       * The initial number of rows for text-field
+       * The initial number of rows for text-field, used only in the case of `multiline=true`.
        */
       rows: { type: Number },
       
-      isDense: { type: Boolean },
+      dense: { type: Boolean },
 
       /**
        * Always show the helper text despite focus.
@@ -240,13 +288,14 @@ export class DwInput extends DwFormElement(LitElement) {
       maxLength: { type: Number },
 
       /**
-       * Display character counter with max length. Note: requries maxLength to be set.
+       * Display character counter with max length. Note: requires maxLength to be set to some value.
        */
       charCounter: { type: Boolean },
 
       /**
        * A string which used to check whether user has updated value or not
-       * When `originalValue` and `value` is different input style is changed
+       * When `originalValue` and `value` is different input style is changed.
+       * Used only when `highlightChanged=true`.
        */
       originalValue: { type: String },
 
@@ -255,36 +304,32 @@ export class DwInput extends DwFormElement(LitElement) {
        * Make sure to provide `originalValue` when setting this to true
        * It will highLight field when `value` and `originalValue` is not same
        */
-      highLightOnChanged: { type: Boolean },
+      highlightChanged: { type: Boolean },
 
       /**
-       * Set this to auto-format value on blur.
-       * It provides user types value as a argument
-       * It must be return a string or null
+       * Set this to configure custom logic to detect whether value is changed or not.
+       * By default it will check by equality check of `value` and `originalValue`.
+       * It must return a Boolean.
+       * Function receives 2 arguments: (val1, val2). Should return `true` when both values are same otherwise `false`.
        */
-      formattedValueGetter: { type: Function },
-
+      valueEqualityChecker: { type: Function },
+      
       /**
-       * Set this to change value on focus. e.g. on focus show original value instead formatted value
-       * It provides user types value as a argument
-       * It must be return a string or null
+       * Set this to true to make icon clickable.
+       * Default is false
        */
-      focusedValueGetter: { type: Function },
+      clickableIcon: { type: Boolean },
+      
 
       /**
        * True when `originalValue` available and it's not equal to `value`
        */
-      _isValueUpdated: { type: Boolean, reflect: true },
+      _valueUpdated: { type: Boolean, reflect: true },
 
       /**
        * A reference to the input element.
        */
       _textFieldInstance: { type: Object },
-
-      /**
-       * Formatted string which is returned by `formattedValueGetter`
-       */
-      _formattedValue: { type: String }
     };
   }
 
@@ -293,14 +338,14 @@ export class DwInput extends DwFormElement(LitElement) {
     const wrapperClasses = {
       'mdc-text-field--disabled': this.disabled,
       'mdc-text-field--no-label': !this.label,
-      'mdc-text-field--with-leading-icon': this.prefixSvgIcon ? true : false,
-      'mdc-text-field--with-trailing-icon': this.sufixSvgIcon ? true : false,
+      'mdc-text-field--with-leading-icon': this.icon ? true : false,
+      'mdc-text-field--with-trailing-icon': this.iconTrailing ? true : false,
       'mdc-text-field--textarea': this.multiline,
-      'mdc-text-field--dense': this.isDense && !this.multiline
+      'mdc-text-field--dense': this.dense && !this.multiline
     };
 
     const labelClasses = {
-      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation_.isFocused_) || this.value || this.value === 0 || this._formattedValue
+      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation_.isFocused_) || this.value || this.value === 0
     };
 
     const helperTextClasses = {
@@ -311,17 +356,21 @@ export class DwInput extends DwFormElement(LitElement) {
     
       <div class="mdc-text-field mdc-text-field--outlined ${classMap(wrapperClasses)}">
 
-        ${this.prefixSvgIcon
-          ? html`<span class="mdc-text-field__icon">${unsafeHTML(this.prefixSvgIcon)}</span>`
-          : html``
-        }
-
-        ${this.sufixSvgIcon
-          ? html`<span class="mdc-text-field__icon">${unsafeHTML(this.sufixSvgIcon)}</span>`
+        ${this.icon
+        ? html`
+            <dw-icon-button class="mdc-text-field__icon" icon="${this.icon}" ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
+            `
           : html``
         }
 
         ${this.multiline ? html`${ this.textareaTemplate}` : html`${this.inputTemplate}`}
+        
+        ${this.iconTrailing
+        ? html`
+            <dw-icon-button class="mdc-text-field__icon" icon="${this.iconTrailing}" ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
+            `
+          : html``
+        }
 
         <div class="mdc-notched-outline">
           <div class="mdc-notched-outline__leading"></div>
@@ -347,13 +396,21 @@ export class DwInput extends DwFormElement(LitElement) {
     `;
   }
 
+  set value(value){
+    this._setValue(value, false);
+  }
+
+  get value() {
+    return this._value;
+  }
+
   constructor() {
     super();
     this.disabled = false;
     this.required = false;
     this.readOnly = false;
     this.placeholder = '';
-    this.value = '';
+    this._value = '';
     this.errorMessage = '';
     this.name = '';
     this.pattern = '(.*?)';
@@ -361,18 +418,14 @@ export class DwInput extends DwFormElement(LitElement) {
     this.autoSelect = false;
     this.multiline = false;
     this.rows = 2;
-    this.isDense = false;
+    this.dense = false;
     this.hintPersistent = false;
     this.charCounter = false;
     this.maxLength = 524288;
-    this._formattedValue = '';
-    this.formattedValueGetter = function (value) {
-      return value;
-    };
 
-    this.focusedValueGetter = function (value) {
-      return value;
-    };
+    this.valueEqualityChecker = function (value, originalValue) { 
+      return value != originalValue;
+    }
   }
 
   get inputTemplate() { 
@@ -380,7 +433,6 @@ export class DwInput extends DwFormElement(LitElement) {
       <input type="text"
         id="tf-outlined"
         class="mdc-text-field__input"
-        .value="${this._formattedValue}"
         .name="${this.name}"
         ?disabled="${this.disabled}"
         ?required="${this.required}"
@@ -417,7 +469,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
   firstUpdated() {
     this._initMdcTextField();
-    this._setFormattedValue();
+    this._updateTextfieldValue();
 
     // Setting timeout here for proper label placement
     setTimeout(() => {
@@ -431,14 +483,6 @@ export class DwInput extends DwFormElement(LitElement) {
       this._textFieldInstance.destroy();
       this._textFieldInstance = null;
     }
-  }
-
-  updated(changedProps) {
-    if (changedProps.has('value') && this.invalid) {
-      this.validate();
-    }
-
-    this._setIsValueUpdated();
   }
 
   /* Call this to set focus in the input */
@@ -457,12 +501,24 @@ export class DwInput extends DwFormElement(LitElement) {
 
     //Updating value only if it's changed because it's setting label as float
     // on `_textFieldInstance.valid` set which shows jerk in label. 
-    if (this._textFieldInstance.valid !== isValid) { 
+    if (this._textFieldInstance && this._textFieldInstance.valid !== isValid) { 
       this._textFieldInstance.valid = isValid;
     }
 
     this.invalid = !isValid;
     return isValid;
+  }
+
+  layout() {
+    this._textFieldInstance.layout();
+  }
+
+  parseValue(text) {  
+    return text;
+  }
+
+  formatText(value) {
+    return value;
   }
 
   /**
@@ -476,10 +532,46 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
-   * Sets formatted value
+   * Triggers value changed event
+   * Validates input is it's invalid
+   * HighLights text field if value is changed and `highlightChanged` property is true
+   * Sets formatted text into text field if value is changed explicitly
+   * @param {String} value - Value to be set
+   * @param {Boolean} internal - True when element it self updates value
    */
-  _setFormattedValue() { 
-    this._formattedValue = this.formattedValueGetter(this.value);
+  _setValue(value, internal) {
+    if (value == this._value) {
+      return;
+    }
+
+    this._value = value === undefined ? '' : value;
+
+    this.dispatchEvent(new CustomEvent('value-changed', {
+      detail: { value: this._value }
+    }));
+
+    if (this.highlightChanged) {
+      this._setIsValueUpdated();
+    }
+
+    if (value && this.invalid) {
+      this.validate();
+    }
+
+    if(!internal) {
+      this._updateTextfieldValue();
+    }
+
+  }
+
+  /**
+   * Updates text-field's value based on the current value of `value` property.
+   * It applies formatting.
+   */
+  _updateTextfieldValue() {
+    if (this._textFieldInstance) { 
+      this._textFieldInstance.value = this.formatText(this.value);
+    }
   }
 
   /**
@@ -494,11 +586,10 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     let isValid = this._isValidValue(event.key);
+
     if (!isValid) {
       event.preventDefault();
     }
-
-    this._patternAlreadyChecked = true;
   }
 
   /**
@@ -506,22 +597,11 @@ export class DwInput extends DwFormElement(LitElement) {
    * Triggers `value-changed` event
    */
   _onInput() {
-    // Validate value if not already validate like pasted value
-    if (this.allowedPattern && !this._patternAlreadyChecked) { 
-      this._checkPatternValidity();
+    let value = this.parseValue(this._textFieldInstance.value);
+
+    if(value !== undefined) {
+      this._setValue(value, true);
     }
-
-    if (this.invalid) { 
-      this.validate();
-    }
-    
-    this.value = this._textFieldInstance.value;
-
-    this.dispatchEvent(new CustomEvent('value-changed', {
-      detail: { value: this._textFieldInstance.value }
-    }));
-
-    this._patternAlreadyChecked = false;
   }
 
   /**
@@ -539,10 +619,14 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
-   * checks `value` again `allowedPattern`
-   * Returns true if value is valid 
+   * checks `value` against `allowedPattern`
+   * Returns `true` if value is valid 
    */
   _isValidValue(value) { 
+    if(!this.allowedPattern) {
+      return true;
+    }
+
     return RegExp(this.allowedPattern).test(value);
   }
 
@@ -551,9 +635,11 @@ export class DwInput extends DwFormElement(LitElement) {
    * Selects input text if `autoSelect` property is true
    */
   _onFocus() { 
-    this._formattedValue = this.focusedValueGetter(this.value, this._formattedValue);
-    if (this.autoSelect) { 
-      this.selectText();
+    if (this.autoSelect) {
+      //Set timeout so that we can always get selected text when autoSelect is true
+      setTimeout(() => {
+        this.selectText();
+      });
     }
   }
 
@@ -562,7 +648,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Validates input value
    */
   _onInputBlur() { 
-    this._setFormattedValue();
+    this._updateTextfieldValue();
     this.validate();
   }
 
@@ -572,7 +658,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Returns true if validation is passed
    */
   _getInputValidity() { 
-    let isValid = this._textFieldInstance.input_.checkValidity();
+    let isValid = this._textFieldInstance && this._textFieldInstance.input_.checkValidity();
 
     if (!isValid) { 
       return false;
@@ -586,14 +672,13 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
-   * Sets `_isValueUpdated` is value is changed. It's used to high-light textfield
+   * Sets `_valueUpdated` is value is changed. It's used to high-light textfield
    */
   _setIsValueUpdated() { 
-    let value = this._textFieldInstance && this._textFieldInstance.value;
-    let originalValue = this.originalValue && this.originalValue.replace(/ /g, '');
+    let value = this.value;
+    let originalValue = this.originalValue;
 
-    value = value && value.replace(/ /g, '');
-    this._isValueUpdated = !!(this.highLightOnChanged && originalValue && value && originalValue !== value);
+    this._valueUpdated = !!(originalValue && value && this.valueEqualityChecker(value, originalValue));
   }
 }
 
