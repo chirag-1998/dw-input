@@ -38,6 +38,9 @@ export class DwTextarea extends LitElement {
         }
 
         textarea {
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
           display: block;
           resize: none;
           border: none;
