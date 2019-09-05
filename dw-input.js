@@ -579,7 +579,7 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     if (this.validator) { 
-      isValid = this.validator(this.value);
+      isValid = this.validator(this.value, this._formattedValue);
     }
 
     return isValid;
