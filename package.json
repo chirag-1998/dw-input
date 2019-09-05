@@ -1,0 +1,37 @@
+{
+  "name": "@dreamworld/dw-input",
+  "version": "0.0.0-development",
+  "description": "Material design styled input text-field & text-area implemented in LitElement",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/DreamworldSolutions/dw-input.git"
+  },
+  "keywords": [
+    "lit",
+    "litelement",
+    "input",
+    "material",
+    "textarea"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DreamworldSolutions/dw-input/issues"
+  },
+  "homepage": "https://github.com/DreamworldSolutions/dw-input#readme",
+  "dependencies": {
+    "@dreamworld/dw-form": "^1.0.1",
+    "@material/textfield": "^3.1.0",
+    "lit-element": "^2.2.1"
+  },
+  "devDependencies": {
+    "semantic-release": "beta"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
