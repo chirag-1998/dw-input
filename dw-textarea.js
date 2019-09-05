@@ -110,6 +110,9 @@ export class DwTextarea extends LitElement {
    */
   set value(value) {
     this._value = value;
+    if(this._textarea) {
+      this._textarea.value = this._value;
+    }
     this._resize()
   }
 
