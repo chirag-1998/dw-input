@@ -24,7 +24,7 @@ export class DwInput extends DwFormElement(LitElement) {
         :host {
           display: block;
           outline:none;
-          position: relative;
+          position: relative; 
         }
 
         :host[hidden] {
