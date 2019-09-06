@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html, css } from 'lit-element';
 import '../dw-input.js';
-import { ThemeStyle } from '@dw/material-styles/theme';
+import { ThemeStyle } from '@dreamworld/material-styles/theme';
 import '@material/mwc-switch';
 import '@material/mwc-formfield';
 
