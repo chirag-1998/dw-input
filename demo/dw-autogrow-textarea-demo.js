@@ -19,7 +19,6 @@ class DwAutogrowTextareaDemo extends LitElement {
           max-width: 300px;
           background-color: #0000001a;
           margin-bottom: 24px;
-          border: 1px solid rgba(0,0,0,.54);
         }
       `
     ];
@@ -30,6 +29,7 @@ class DwAutogrowTextareaDemo extends LitElement {
     return html`
       <h4>Auto grow textarea</h4>
       <dw-textarea .minHeight=${42} 
+        .maxHeight=${154}
         .placeholder=${"Enter a new value"} 
         @esc=${this._onEscKey} 
         @enter=${this._onEnter} 

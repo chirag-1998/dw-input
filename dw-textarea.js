@@ -10,18 +10,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html, css } from 'lit-element';
 import { styleMap } from 'lit-html/directives/style-map.js';
-import { ThemeStyle } from '@dreamworld/material-styles/theme';
 export class DwTextarea extends LitElement {
   static get styles() {
     return [
-      ThemeStyle,
       css`
         :host {
           display: block;
           -webkit-box-sizing: border-box;
           -moz-box-sizing: border-box;
           box-sizing: border-box;
-          color: var(--primary-text-color);
+          color: var(--mdc-theme-text-primary);
         }
 
         :host[hidden] {
@@ -45,8 +43,11 @@ export class DwTextarea extends LitElement {
           resize: none;
           border: none;
           outline:none;
-          background-color: inherit;
+          background-color: transparent;
+          color: inherit;
           font-size: inherit;
+          font-weight: inherit;
+          letter-spacing: inherit;
           line-height: inherit;
           padding: 0px;
           width: 100%;
@@ -54,6 +55,18 @@ export class DwTextarea extends LitElement {
 
         textarea:focus {
           outline:none;
+        }
+
+        ::-webkit-input-placeholder { /* Edge */
+          color: var(--mdc-theme-text-hint);
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+          color: var(--mdc-theme-text-hint);
+        }
+
+        ::placeholder {
+          color: var(--mdc-theme-text-hint);
         }
       `
     ];
