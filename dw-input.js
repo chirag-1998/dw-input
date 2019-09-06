@@ -270,6 +270,13 @@ export class DwInput extends DwFormElement(LitElement) {
        * It must be return a string or null
        */
       focusedValueGetter: { type: Function },
+      
+      /**
+       * Set this to configure if value is changed or not.
+       * By default it will check by comparing `value` and `originalValue`
+       * It must be return a Boolean
+       */
+      isValueChanged: { type: Function },
 
       /**
        * True when `originalValue` available and it's not equal to `value`
@@ -347,6 +354,27 @@ export class DwInput extends DwFormElement(LitElement) {
     `;
   }
 
+  set value(value) {
+    const oldValue = this._value;
+
+    this._value = value;
+    this._formattedValue = value;
+
+    if (this.highLightOnChanged) { 
+      this._setIsValueUpdated();
+    }
+
+    if (value && this.invalid) {
+      this.validate();
+    }
+
+    this.requestUpdate('value', oldValue);
+  } 
+
+  get value() {
+    return this._value;
+  }
+
   constructor() {
     super();
     this.disabled = false;
@@ -373,6 +401,10 @@ export class DwInput extends DwFormElement(LitElement) {
     this.focusedValueGetter = function (value) {
       return value;
     };
+
+    this.isValueChanged = function (value, originalValue) { 
+      return value !== originalValue;
+    }
   }
 
   get inputTemplate() { 
@@ -433,14 +465,6 @@ export class DwInput extends DwFormElement(LitElement) {
     }
   }
 
-  updated(changedProps) {
-    if (changedProps.has('value') && this.invalid) {
-      this.validate();
-    }
-
-    this._setIsValueUpdated();
-  }
-
   /* Call this to set focus in the input */
   focus() {
     this._textFieldInstance.focus();
@@ -484,25 +508,8 @@ export class DwInput extends DwFormElement(LitElement) {
    */
   _setFormattedValue() { 
     let formattedValue = this.formattedValueGetter(this.value);
-    
-    if(this._formattedValue !== formattedValue){
-      this._formattedValue = formattedValue;
-      return;
-    }
-    
-    // Below logic is for when value is same on blur input will not show formatted value as value is not changed
-    // Problem with example::  Write 1234 it will format to 1,234. on focus it will be 1234. now blur. value will not be changed to 1,234
-    this._formattedValue = null;
-    
-    setTimeout(() => { 
-      this._formattedValue = formattedValue;
-      
-      // For proper label placement
-      setTimeout(() => { 
-        this.layout();
-      });
-    });
-    
+
+    this._formattedValue = formattedValue;
   }
 
   /**
@@ -575,8 +582,12 @@ export class DwInput extends DwFormElement(LitElement) {
    */
   _onFocus() { 
     this._formattedValue = this.focusedValueGetter(this.value, this._formattedValue);
-    if (this.autoSelect) { 
-      this.selectText();
+
+    if (this.autoSelect) {
+      //Set timeout so that we can always get selected text when autoSelect is true
+      setTimeout(() => {
+        this.selectText();
+      });
     }
   }
 
@@ -585,7 +596,9 @@ export class DwInput extends DwFormElement(LitElement) {
    * Validates input value
    */
   _onInputBlur() { 
-    this._setFormattedValue();
+    setTimeout(() => {
+      this._setFormattedValue();
+    }, 0);
     this.validate();
   }
 
@@ -612,11 +625,10 @@ export class DwInput extends DwFormElement(LitElement) {
    * Sets `_isValueUpdated` is value is changed. It's used to high-light textfield
    */
   _setIsValueUpdated() { 
-    let value = this._textFieldInstance && this._textFieldInstance.value;
-    let originalValue = this.originalValue && this.originalValue.replace(/ /g, '');
+    let value = this.value;
+    let originalValue = this.originalValue;
 
-    value = value && value.replace(/ /g, '');
-    this._isValueUpdated = !!(this.highLightOnChanged && originalValue && value && originalValue !== value);
+    this._isValueUpdated = !!(originalValue && value && this.isValueChanged(value, originalValue, this._formattedValue));
   }
 }
 
