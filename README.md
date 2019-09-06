@@ -134,7 +134,7 @@ import  '@dreamworld/dw-input/dw-textarea';
 
 #### Example Fixed height input with scroll:
 ```html
-<dw-textarea  .autoGrow=${false}  .minHeight=${70} .maxHeight=${70}></dw-textarea>
+<dw-textarea  .minHeight=${70} .maxHeight=${70}></dw-textarea>
 ```
 ## Other examples
 - Read only input
