@@ -291,7 +291,7 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * Formatted string which is returned by `formattedValueGetter`
        */
-      _formattedValue: { type: String }
+      formattedValue: { type: String }
     };
   }
 
@@ -307,7 +307,7 @@ export class DwInput extends DwFormElement(LitElement) {
     };
 
     const labelClasses = {
-      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation_.isFocused_) || this.value || this.value === 0 || this._formattedValue
+      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation_.isFocused_) || this.value || this.value === 0 || this.formattedValue
     };
 
     const helperTextClasses = {
@@ -356,9 +356,17 @@ export class DwInput extends DwFormElement(LitElement) {
 
   set value(value) {
     const oldValue = this._value;
-
+    
+    if(value === oldValue){
+      return;
+    }
+    
     this._value = value;
-    this._formattedValue = value;
+
+    // This is for format value when `value` is changed programmatically 
+    if (this._textFieldInstance && this._textFieldInstance.value !== this.formattedValueGetter(value) && this._textFieldInstance.value !== value) { 
+      this.formattedValue = this.formattedValueGetter(value);
+    }
 
     if (this.highLightOnChanged) { 
       this._setIsValueUpdated();
@@ -393,7 +401,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.hintPersistent = false;
     this.charCounter = false;
     this.maxLength = 524288;
-    this._formattedValue = '';
+    this.formattedValue = '';
     this.formattedValueGetter = function (value) {
       return value;
     };
@@ -412,7 +420,7 @@ export class DwInput extends DwFormElement(LitElement) {
       <input type="text"
         id="tf-outlined"
         class="mdc-text-field__input"
-        .value="${this._formattedValue}"
+        .value="${this.formattedValue}"
         .name="${this.name}"
         ?disabled="${this.disabled}"
         ?required="${this.required}"
@@ -508,8 +516,8 @@ export class DwInput extends DwFormElement(LitElement) {
    */
   _setFormattedValue() { 
     let formattedValue = this.formattedValueGetter(this.value);
-
-    this._formattedValue = formattedValue;
+    this.formattedValue = formattedValue;
+    
   }
 
   /**
@@ -581,7 +589,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Selects input text if `autoSelect` property is true
    */
   _onFocus() { 
-    this._formattedValue = this.focusedValueGetter(this.value, this._formattedValue);
+    this.formattedValue = this.focusedValueGetter(this.value, this.formattedValue);
 
     if (this.autoSelect) {
       //Set timeout so that we can always get selected text when autoSelect is true
@@ -596,9 +604,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Validates input value
    */
   _onInputBlur() { 
-    setTimeout(() => {
-      this._setFormattedValue();
-    }, 0);
+    this._setFormattedValue();
     this.validate();
   }
 
@@ -615,7 +621,7 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     if (this.validator) { 
-      isValid = this.validator(this.value, this._formattedValue);
+      isValid = this.validator(this.value, this.formattedValue);
     }
 
     return isValid;
@@ -628,7 +634,7 @@ export class DwInput extends DwFormElement(LitElement) {
     let value = this.value;
     let originalValue = this.originalValue;
 
-    this._isValueUpdated = !!(originalValue && value && this.isValueChanged(value, originalValue, this._formattedValue));
+    this._isValueUpdated = !!(originalValue && value && this.isValueChanged(value, originalValue, this.formattedValue));
   }
 }
 
