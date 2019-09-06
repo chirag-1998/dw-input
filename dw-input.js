@@ -129,6 +129,10 @@ export class DwInput extends DwFormElement(LitElement) {
           font-size: 1rem;
         }
         /* ENDS: Style for dense field */
+        
+        .mdc-text-field + .mdc-text-field-helper-line{
+           position: var(--dw-input-helper-line-position, relative);
+        }
       `
     ];
   }
@@ -277,6 +281,11 @@ export class DwInput extends DwFormElement(LitElement) {
        * It must be return a Boolean
        */
       isValueChanged: { type: Function },
+      
+      /**
+       * Formatted string which is returned by `formattedValueGetter`
+       */
+      formattedValue: { type: String },
 
       /**
        * True when `originalValue` available and it's not equal to `value`
@@ -287,11 +296,6 @@ export class DwInput extends DwFormElement(LitElement) {
        * A reference to the input element.
        */
       _textFieldInstance: { type: Object },
-
-      /**
-       * Formatted string which is returned by `formattedValueGetter`
-       */
-      formattedValue: { type: String }
     };
   }
 
@@ -516,7 +520,24 @@ export class DwInput extends DwFormElement(LitElement) {
    */
   _setFormattedValue() { 
     let formattedValue = this.formattedValueGetter(this.value);
-    this.formattedValue = formattedValue;
+    
+    if(this.formattedValue !== formattedValue){
+      this.formattedValue = formattedValue;
+      return;
+    }
+    
+    // Below logic is for when value is same on blur input will not show formatted value as value is not changed
+    // Problem with example::  Write 1234 it will format to 1,234. on focus it will be 1234. now blur. value will not be changed to 1,234
+    this.formattedValue = null;
+    
+    setTimeout(() => { 
+      this.formattedValue = formattedValue;
+      
+      // For proper label placement
+      setTimeout(() => { 
+        this.layout();
+      });
+    });
     
   }
 
