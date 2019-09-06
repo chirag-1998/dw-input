@@ -29,36 +29,23 @@ class DwAutogrowTextareaDemo extends LitElement {
     
     return html`
       <h4>Auto grow textarea</h4>
-      <dw-textarea .minHeight=${42} .placeholder=${"Enter a new value"}></dw-textarea>
+      <dw-textarea .minHeight=${42} 
+        .placeholder=${"Enter a new value"} 
+        @esc=${this._onEscKey} 
+        @enter=${this._onEnter} 
+        @value-changed=${this._onValueChange}
+        @blur=${this._onBlur}>
+      </dw-textarea>
 
       <h4>Fix hieght textarea</h4>
-      <dw-textarea .minHeight=${52} .maxHeight=${52} .placeholder=${"Enter a new value"}></dw-textarea>
+      <dw-textarea .minHeight=${52} .maxHeight=${52} 
+        .placeholder=${"Enter a new value"} 
+        @esc=${this._onEscKey} 
+        @enter=${this._onEnter} 
+        @value-changed=${this._onValueChange}
+        @blur=${this._onBlur}>
+      </dw-textarea>
     `;
-  }
-
-  firstUpdated() {
-    super.firstUpdated && super.firstUpdated();
-    let dwAutogrowTextarea =  this.shadowRoot.querySelectorAll('dw-textarea');
-    this._onEscKeyHandler =  this._onEscKey.bind(this);
-    this._onEnterHandler =  this._onEnter.bind(this);
-    this._onValueChangeHandler = this._onValueChange.bind(this);
-    for(let i = 0;  i < dwAutogrowTextarea.length; i++) {
-      let el = dwAutogrowTextarea[i];
-      el.addEventListener('enter', this._onEnterHandler);
-      el.addEventListener('esc', this._onEscKeyHandler);
-      el.addEventListener('value-changed', this._onValueChangeHandler);
-    }
-  }
-
-  disconnectedCallback() {
-    let dwAutogrowTextarea =  this.shadowRoot.querySelectorAll('dw-textarea');
-    for(let i = 0;  i < dwAutogrowTextarea.length; i++) {
-      let el = dwAutogrowTextarea[i];
-      el.removeEventListener('enter', this._onEnterHandler);
-      el.removeEventListener('esc', this._onEscKeyHandler);
-      el.removeEventListener('value-changed', this._onValueChangeHandler);
-    }
-    super.disconnectedCallback();
   }
 
   _onEscKey(e) {
@@ -71,6 +58,10 @@ class DwAutogrowTextareaDemo extends LitElement {
 
   _onValueChange(e) {
     console.log("on value changed", e.detail);
+  }
+
+  _onBlur(e){
+    console.log("on blur", e.detail);
   }
 }
 
