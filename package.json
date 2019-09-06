@@ -29,7 +29,10 @@
     "lit-element": "^2.2.1"
   },
   "devDependencies": {
-    "semantic-release": "beta"
+    "semantic-release": "beta",
+    "@dw/material-styles": "^1.0.4-SNAPSHOT",
+    "@material/mwc-switch": "^0.7.1",
+    "@material/mwc-formfield": "^0.7.1"
   },
   "publishConfig": {
     "access": "public"

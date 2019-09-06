@@ -10,11 +10,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html, css } from 'lit-element';
 import '../dw-input.js';
+import { ThemeStyle } from '@dw/material-styles/theme';
+import '@material/mwc-switch';
+import '@material/mwc-formfield';
 
 class DwInputDemo extends LitElement {
   static get styles() {
     return [
+      ThemeStyle,,
       css`
+        :host{
+          display: inline-block;
+          width: 100%;
+          padding: 24px;
+        }
+
         dw-input{
           margin-bottom: 16px;
           max-width: 300px;
@@ -28,6 +38,17 @@ class DwInputDemo extends LitElement {
         .col{
           margin-right: 30px;
         }
+
+        h4{
+          color: var(--mdc-theme-text-primary);
+        }
+
+        mwc-formfield{
+          display: block;
+          padding-bottom: 24px;
+          --mdc-theme-text-primary-on-background: var(--mdc-theme-text-primary);
+        }
+
       `
     ];
   }
@@ -35,6 +56,19 @@ class DwInputDemo extends LitElement {
   render() {
     
     return html`
+
+      <mwc-formfield label="Enable dark theme">
+        <mwc-switch @change="${(e) => {
+          if (e.target.checked) { 
+            this.setAttribute('dark-theme', e.detail);
+            return;
+          }
+      
+          this.removeAttribute('dark-theme');
+          }}">
+        </mwc-switch>
+      </mwc-formfield>
+
       <h4>Required text field</h4>
       <dw-input label="First name" required errorMessage="Required"></dw-input>
 

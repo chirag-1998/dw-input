@@ -25,6 +25,9 @@ export class DwInput extends DwFormElement(LitElement) {
           display: block;
           outline:none;
           position: relative;
+          --dw-input-outlined-idle-border-color: var(--mdc-theme-text-secondary);
+          --dw-input-outlined-hover-border-color: var(--mdc-theme-text-primary);
+          --dw-input-outlined-disabled-border-color: var(--mdc-theme-text-disabled);
         }
 
         :host[hidden] {
@@ -45,6 +48,27 @@ export class DwInput extends DwFormElement(LitElement) {
         .mdc-text-field--focused:not(.mdc-text-field--invalid):not(.mdc-text-field--disabled) .mdc-floating-label {
           color: var(--mdc-theme-primary, rgba(98, 0, 238, 0.87));
         }
+
+        /* STARTS: style for dark/light theme */
+        .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input{
+          color: var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87))
+        }
+
+        .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input::placeholder,
+        .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):not(.mdc-text-field--invalid) .mdc-floating-label{
+          color: var(--mdc-theme-text-secondary ,rgba(0, 0, 0, 0.6));
+        }
+
+        .mdc-text-field.mdc-text-field--disabled .mdc-text-field__input::placeholder,
+        .mdc-text-field.mdc-text-field--disabled .mdc-text-field__input,
+        .mdc-text-field.mdc-text-field--disabled .mdc-floating-label{
+          color: var(--mdc-theme-text-disabled ,rgba(0, 0, 0, 0.38));
+        }
+
+        .mdc-text-field:not(.mdc-text-field--disabled) + .mdc-text-field-helper-line .mdc-text-field-helper-text{
+          color: var(--mdc-theme-text-secondary, rgba(0, 0, 0, 0.6));
+        }
+        /* ENDS: style for dark theme */
         
         /* Hide right bottom corner icon */
         textarea{
