@@ -116,9 +116,13 @@ import  '@dreamworld/dw-input/dw-textarea';
 -  `blur` - Remove the input focus
 -  `validate` - Call this to validate input. Returns false if value is invalid.
 
+## Theme
+Configure padding of the textarea `--dw-textarea-padding` css variable.  
+
 ## Features
 - Auto grow input.
 - Fixed height input with scroll
+- Disabled enter
 
 ### Auto grow input.
 - Provide auto grow input based on `minHeight` and `maxHeight` property.
@@ -135,6 +139,14 @@ import  '@dreamworld/dw-input/dw-textarea';
 #### Example Fixed height input with scroll:
 ```html
 <dw-textarea  .minHeight=${70} .maxHeight=${70}></dw-textarea>
+```
+### Disabled enter
+- Provide way enter not allowed in input.
+- Set `disabledEnter` property set as a `true`.
+
+#### Example Disabled enter:
+```html
+<dw-textarea .minHeight=${70} .maxHeight=${70} disabledEnter></dw-textarea>
 ```
 ## Other examples
 - Read only input

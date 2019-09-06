@@ -49,7 +49,7 @@ export class DwTextarea extends LitElement {
           font-weight: inherit;
           letter-spacing: inherit;
           line-height: inherit;
-          padding: 0px;
+          padding: var(--dw-textarea-padding, 0px);
           width: 100%;
         }
 
@@ -107,7 +107,12 @@ export class DwTextarea extends LitElement {
       /**
        * A placeholder for textarea.
        */
-      placeholder: { type: String }
+      placeholder: { type: String },
+
+      /**
+       * Disabled enter in input.
+       */
+      disabledEnter: { type: Boolean }
     };
   }
 
@@ -257,6 +262,11 @@ export class DwTextarea extends LitElement {
     this.dispatchEvent(new CustomEvent('enter', {
       detail: { value: this._textarea.value, event: e }
     }));
+
+    if (this.disabledEnter) {
+      e.preventDefault && e.preventDefault();
+      return false;
+    }
   }
 
   /**

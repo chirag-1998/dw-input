@@ -19,6 +19,7 @@ class DwAutogrowTextareaDemo extends LitElement {
           max-width: 300px;
           background-color: #0000001a;
           margin-bottom: 24px;
+          --dw-textarea-padding: 8px;
         }
       `
     ];
@@ -44,6 +45,16 @@ class DwAutogrowTextareaDemo extends LitElement {
         @enter=${this._onEnter} 
         @value-changed=${this._onValueChange}
         @blur=${this._onBlur}>
+      </dw-textarea>
+
+      <h4>Disabled enter</h4>
+      <dw-textarea .minHeight=${52} .maxHeight=${52} 
+        .placeholder=${"Enter a new value"} 
+        @esc=${this._onEscKey} 
+        @enter=${this._onEnter} 
+        @value-changed=${this._onValueChange}
+        @blur=${this._onBlur}
+        .disabledEnter=${true}>
       </dw-textarea>
     `;
   }
