@@ -27,7 +27,7 @@ export class DwInput extends DwFormElement(LitElement) {
           position: relative;
           --dw-input-outlined-idle-border-color: var(--mdc-theme-text-secondary);
           --dw-input-outlined-hover-border-color: var(--mdc-theme-text-primary);
-          --dw-input-outlined-disabled-border-color: var(--mdc-theme-text-disabled); 
+          --dw-input-outlined-disabled-border-color: var(--mdc-theme-text-disabled);
         }
 
         :host[hidden] {
