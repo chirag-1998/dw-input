@@ -157,6 +157,10 @@ export class DwInput extends DwFormElement(LitElement) {
         .mdc-text-field + .mdc-text-field-helper-line{
            position: var(--dw-input-helper-line-position, relative);
         }
+  
+        .mdc-text-field__icon{
+          outline: none;
+        }
       `
     ];
   }
@@ -307,6 +311,12 @@ export class DwInput extends DwFormElement(LitElement) {
       isValueChanged: { type: Function },
       
       /**
+       * Set this to true to make icon clickable.
+       * Default is false
+       */
+      hasClickableIcon: { type: Boolean },
+      
+      /**
        * Formatted string which is returned by `formattedValueGetter`
        */
       formattedValue: { type: String },
@@ -347,12 +357,12 @@ export class DwInput extends DwFormElement(LitElement) {
       <div class="mdc-text-field mdc-text-field--outlined ${classMap(wrapperClasses)}">
 
         ${this.prefixSvgIcon
-          ? html`<span class="mdc-text-field__icon">${unsafeHTML(this.prefixSvgIcon)}</span>`
+          ? html`<span class="mdc-text-field__icon" tabindex="${this.hasClickableIcon ? 0 : -1}" role="${this.hasClickableIcon ? 'button' : ''}">${unsafeHTML(this.prefixSvgIcon)}</span>`
           : html``
         }
 
         ${this.sufixSvgIcon
-          ? html`<span class="mdc-text-field__icon">${unsafeHTML(this.sufixSvgIcon)}</span>`
+          ? html`<span class="mdc-text-field__icon" tabindex="${this.hasClickableIcon ? 0 : -1}" role="${this.hasClickableIcon ? 'button' : ''}">${unsafeHTML(this.sufixSvgIcon)}</span>`
           : html``
         }
 
