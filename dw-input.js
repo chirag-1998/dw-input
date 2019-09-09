@@ -15,6 +15,7 @@ import { MDCTextField } from '@material/textfield';
 import { MDCTextFieldCharacterCounter } from '@material/textfield/character-counter';
 import { TextfieldStyle } from './mdc-text-field-css.js';
 import { DwFormElement } from '@dreamworld/dw-form/dw-form-element';
+import './dw-textarea.js';
 
 export class DwInput extends DwFormElement(LitElement) {
   static get styles() {
@@ -254,11 +255,6 @@ export class DwInput extends DwFormElement(LitElement) {
        */
       multiline: { type: Boolean },
       
-      /**
-       * The initial number of rows for text-field
-       */
-      rows: { type: Number },
-      
       isDense: { type: Boolean },
 
       /**
@@ -434,7 +430,6 @@ export class DwInput extends DwFormElement(LitElement) {
     this.invalid = false;
     this.autoSelect = false;
     this.multiline = false;
-    this.rows = 2;
     this.isDense = false;
     this.hintPersistent = false;
     this.charCounter = false;
@@ -476,9 +471,8 @@ export class DwInput extends DwFormElement(LitElement) {
 
   get textareaTemplate() {
     return html`
-      <textarea id="tf-outlined"
+      <dw-textarea id="tf-outlined"
         class="mdc-text-field__input"
-        rows="${this.rows}"
         .value="${this.value}"
         .name="${this.name}"
         ?disabled="${this.disabled}"
@@ -489,7 +483,7 @@ export class DwInput extends DwFormElement(LitElement) {
         .placeholder="${this.placeholder}"
         @input="${this._onInput}"
         @blur = "${this._onInputBlur}" >
-      </textarea>
+      </dw-textarea>
     `;
   }
 
@@ -546,7 +540,7 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   layout() {
-    this._textFieldInstance.layout();
+    this._textFieldInstance && this._textFieldInstance.layout();
   }
 
   /**
