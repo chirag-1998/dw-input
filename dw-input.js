@@ -132,7 +132,10 @@ export class DwInput extends DwFormElement(LitElement) {
         :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__trailing,
         :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__leading,
         :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__notch,
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing{
+        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing,
+        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__leading,
+        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__notch,
+        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing{
           border-color: var(--mdc-theme-secondary);
           border-width: 2px;
         }
@@ -527,7 +530,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
     //Updating value only if it's changed because it's setting label as float
     // on `_textFieldInstance.valid` set which shows jerk in label. 
-    if (this._textFieldInstance.valid !== isValid) { 
+    if (this._textFieldInstance && this._textFieldInstance.valid !== isValid) { 
       this._textFieldInstance.valid = isValid;
     }
 
@@ -669,7 +672,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Returns true if validation is passed
    */
   _getInputValidity() { 
-    let isValid = this._textFieldInstance.input_.checkValidity();
+    let isValid = this._textFieldInstance && this._textFieldInstance.input_.checkValidity();
 
     if (!isValid) { 
       return false;
