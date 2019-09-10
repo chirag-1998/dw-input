@@ -51,6 +51,7 @@ export class DwTextarea extends LitElement {
           line-height: inherit;
           padding: var(--dw-textarea-padding, 0px);
           width: 100%;
+          font-family: inherit;
         }
 
         textarea:focus {
