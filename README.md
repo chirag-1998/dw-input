@@ -23,7 +23,7 @@ A material input element made with lit-html. For more detail visit https://mater
 - It auto select's text if `autoSelect` property is true
 - Provides a `validator` property to add custom validations
 - Set `multiline` to true to show input as text area
-- Set `prefixSvgIcon` and `suffixSvgIcon` to show prefix and suffix icon
+- Set `icon` and `iconTrailing` to show prefix and suffix icon
 - Performs validation on blur. It also performs validation on User type if input is invalid.
 
 ## Events
@@ -81,7 +81,7 @@ customElements.define('custom-input', CustomInput);
 
 <dw-input label="Number" disabled allowedPattern="[0-9]" value="12"></dw-input>
 
-<dw-input label="Number" readOnly prefixSvgIcon='<SVG_PATH>'  suffixSvgIcon='<SVG_PATH>'></dw-input>
+<dw-input label="Number" readOnly icon='search' iconTrailing='add_comment'></dw-input>
 
 <dw-input noLabel multiline></dw-input>
 

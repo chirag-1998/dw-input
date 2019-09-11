@@ -9,12 +9,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html, css } from 'lit-element';
-import {unsafeHTML} from 'lit-html/directives/unsafe-html.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { MDCTextField } from '@material/textfield';
 import { MDCTextFieldCharacterCounter } from '@material/textfield/character-counter';
 import { TextfieldStyle } from './mdc-text-field-css.js';
 import { DwFormElement } from '@dreamworld/dw-form/dw-form-element';
+import '@dreamworld/dw-icon/dw-icon';
 
 export class DwInput extends DwFormElement(LitElement) {
   static get styles() {
@@ -214,12 +214,12 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * Leading icon to display in input
        */
-      prefixSvgIcon: { type: String },
+      icon: { type: String },
 
        /**
        * Trailing icon to display in input
        */
-      sufixSvgIcon: { type: String },
+      iconTrailing: { type: String },
 
       /**
        * A placeholder text in addition to the label.
@@ -341,8 +341,8 @@ export class DwInput extends DwFormElement(LitElement) {
     const wrapperClasses = {
       'mdc-text-field--disabled': this.disabled,
       'mdc-text-field--no-label': !this.label,
-      'mdc-text-field--with-leading-icon': this.prefixSvgIcon ? true : false,
-      'mdc-text-field--with-trailing-icon': this.sufixSvgIcon ? true : false,
+      'mdc-text-field--with-leading-icon': this.icon ? true : false,
+      'mdc-text-field--with-trailing-icon': this.iconTrailing ? true : false,
       'mdc-text-field--textarea': this.multiline,
       'mdc-text-field--dense': this.isDense && !this.multiline
     };
@@ -359,13 +359,19 @@ export class DwInput extends DwFormElement(LitElement) {
     
       <div class="mdc-text-field mdc-text-field--outlined ${classMap(wrapperClasses)}">
 
-        ${this.prefixSvgIcon
-          ? html`<span class="mdc-text-field__icon" tabindex="${this.hasClickableIcon ? 0 : -1}" role="${this.hasClickableIcon ? 'button' : ''}">${unsafeHTML(this.prefixSvgIcon)}</span>`
+        ${this.icon
+        ? html`
+          <span class="mdc-text-field__icon" tabindex="${this.hasClickableIcon ? 0 : -1}" role="${this.hasClickableIcon ? 'button' : ''}">
+            <dw-icon name="${this.icon}" ?disabled="${this.disabled}"></dw-icon>
+          </span>`
           : html``
         }
 
-        ${this.sufixSvgIcon
-          ? html`<span class="mdc-text-field__icon" tabindex="${this.hasClickableIcon ? 0 : -1}" role="${this.hasClickableIcon ? 'button' : ''}">${unsafeHTML(this.sufixSvgIcon)}</span>`
+        ${this.iconTrailing
+        ? html`
+          <span class="mdc-text-field__icon" tabindex="${this.hasClickableIcon ? 0 : -1}" role="${this.hasClickableIcon ? 'button' : ''}">
+            <dw-icon name="${this.iconTrailing}" ?disabled="${this.disabled}"></dw-icon>
+          </span>`
           : html``
         }
 
