@@ -318,6 +318,24 @@ export class DwInput extends DwFormElement(LitElement) {
       formattedValue: { type: String },
 
       /**
+       * Minimum height of textarea
+       * Applicable when `multiline` is true
+       */
+      minHeight: { type: Number },
+
+      /**
+       * Max height of textarea. After that vertical scroll is available.
+       * Applicable when `multiline` is true
+       */
+      maxHeight: { type: Number },
+
+      /**
+       * Disabled enter in input.
+       * Applicable when `multiline` is true
+       */
+      disabledEnter: { type: Boolean },
+
+      /**
        * True when `originalValue` available and it's not equal to `value`
        */
       _isValueUpdated: { type: Boolean, reflect: true },
@@ -478,9 +496,10 @@ export class DwInput extends DwFormElement(LitElement) {
         ?disabled="${this.disabled}"
         ?required="${this.required}"
         ?readonly="${this.readOnly}"
-        .maxLength="${this.maxLength}"
-        ?charCounter="${this.charCounter}"
         .placeholder="${this.placeholder}"
+        .minHeight="${this.minHeight}"
+        .maxHeight="${this.maxHeight}"
+        .disabledEnter="${this.disabledEnter}"
         @input="${this._onInput}"
         @blur = "${this._onInputBlur}" >
       </dw-textarea>
