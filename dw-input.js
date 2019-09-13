@@ -568,20 +568,21 @@ export class DwInput extends DwFormElement(LitElement) {
       this.formattedValue = formattedValue;
       return;
     }
-    
+
     // Below logic is for when value is same on blur input will not show formatted value as value is not changed
     // Problem with example::  Write 1234 it will format to 1,234. on focus it will be 1234. now blur. value will not be changed to 1,234
-    this.formattedValue = null;
+    if (this.formattedValue === formattedValue && this._textFieldInstance.input_.value !== formattedValue) { 
+      this.formattedValue = null;
     
-    setTimeout(() => { 
-      this.formattedValue = formattedValue;
-      
-      // For proper label placement
       setTimeout(() => { 
-        this.layout();
+        this.formattedValue = formattedValue;
+        
+        // For proper label placement
+        setTimeout(() => { 
+          this.layout();
+        });
       });
-    });
-    
+    }
   }
 
   /**
