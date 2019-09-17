@@ -202,7 +202,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
       /**
        * A pattern to validate the `input` with. Checked during `validate()`.
-       * 
+       * Doens't work when custom validator is provided through `validator` property.
        */
       pattern: { type: String },
 
@@ -237,13 +237,15 @@ export class DwInput extends DwFormElement(LitElement) {
       readOnly: { type: Boolean},
 
       /**
-       * Set this to apply custom validation of input
-       * It must be return Boolean
+       * Set this to apply custom validation of input. Receives value to be validated as argument.
+       * It must return Boolean.
        */
       validator: { type: Function },
 
       /**
-       *  True if the last call to `validate` is invalid.
+       * Set to `true` when the last call to `validate` is invalid. Mostly, you don't need to manually set/change this
+       * property. It's automatically updated as the part of the validation logic. Generally, validation is performed
+       * on blur & value change if the current value is invalid.
        */
       invalid: { type: Boolean },
 
@@ -258,7 +260,7 @@ export class DwInput extends DwFormElement(LitElement) {
       multiline: { type: Boolean },
       
       /**
-       * The initial number of rows for text-field
+       * The initial number of rows for text-field, used only in the case of `multiline=true`.
        */
       rows: { type: Number },
       
@@ -275,13 +277,14 @@ export class DwInput extends DwFormElement(LitElement) {
       maxLength: { type: Number },
 
       /**
-       * Display character counter with max length. Note: requries maxLength to be set.
+       * Display character counter with max length. Note: requires maxLength to be set to some value.
        */
       charCounter: { type: Boolean },
 
       /**
        * A string which used to check whether user has updated value or not
-       * When `originalValue` and `value` is different input style is changed
+       * When `originalValue` and `value` is different input style is changed.
+       * Used only when `highlightChanged=true`.
        */
       originalValue: { type: String },
 
@@ -307,9 +310,10 @@ export class DwInput extends DwFormElement(LitElement) {
       focusedValueGetter: { type: Function },
       
       /**
-       * Set this to configure if value is changed or not.
-       * By default it will check by comparing `value` and `originalValue`
-       * It must be return a Boolean
+       * Set this to configure configure custom logic to detect whether value is changed or not.
+       * By default it will check by equality check of `value` and `originalValue`.
+       * It must return a Boolean.
+       * Function receives 2 arguments: (val1, val2). Should return `true` when both values are same otherwise `false`.
        */
       isValueChanged: { type: Function },
       
@@ -642,10 +646,14 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
-   * checks `value` again `allowedPattern`
-   * Returns true if value is valid 
+   * checks `value` against `allowedPattern`
+   * Returns `true` if value is valid 
    */
   _isValidValue(value) { 
+    if(!this.allowedPattern) {
+      return true;
+    }
+
     return RegExp(this.allowedPattern).test(value);
   }
 
