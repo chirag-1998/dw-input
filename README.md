@@ -40,7 +40,7 @@ Triggers `value-changed` event on value change.
 
 - formattedValueGetter - Use to auto-format value on blur. It provides value in argument. It must be return a string.
 
-- focusedValueGetter - Use to set value on focus. It provides value in argument. It must be return a string.
+- valueDeformatter - Use to set value on focus. It provides value in argument. It must be return a string.
 
 ## Theme
 Configure color of the icon using `--dw-icon-color` css variable.  
@@ -85,5 +85,5 @@ customElements.define('custom-input', CustomInput);
 
 <dw-input noLabel multiline></dw-input>
 
-<dw-input value="12" originalValue="12" highLightOnChanged></dw-input>
+<dw-input value="12" originalValue="12" highlightChanged></dw-input>
 ```

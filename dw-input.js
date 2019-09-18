@@ -127,21 +127,21 @@ export class DwInput extends DwFormElement(LitElement) {
         }
 
         /* STARTS: Change border/label color when value is changed */
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__leading,
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__notch,
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__trailing,
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__leading,
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__notch,
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing,
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__leading,
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__notch,
-        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing{
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__leading,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__notch,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__trailing,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__leading,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__notch,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__leading,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__notch,
+        :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing{
           border-color: var(--mdc-theme-secondary);
           border-width: 2px;
         }
 
-        :host([_isValueUpdated]) .mdc-text-field--focused .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-floating-label::after,
-        :host([_isValueUpdated]) .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-floating-label{
+        :host([_valueUpdated]) .mdc-text-field--focused .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-floating-label::after,
+        :host([_valueUpdated]) .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-floating-label{
           color: var(--mdc-theme-secondary);
         }
         /* ENDS: Change  border/label color when value is changed */
@@ -264,7 +264,7 @@ export class DwInput extends DwFormElement(LitElement) {
        */
       rows: { type: Number },
       
-      isDense: { type: Boolean },
+      dense: { type: Boolean },
 
       /**
        * Always show the helper text despite focus.
@@ -293,7 +293,7 @@ export class DwInput extends DwFormElement(LitElement) {
        * Make sure to provide `originalValue` when setting this to true
        * It will highLight field when `value` and `originalValue` is not same
        */
-      highLightOnChanged: { type: Boolean },
+      highlightChanged: { type: Boolean },
 
       /**
        * Set this to auto-format value on blur.
@@ -307,21 +307,21 @@ export class DwInput extends DwFormElement(LitElement) {
        * It provides user types value as a argument
        * It must be return a string or null
        */
-      focusedValueGetter: { type: Function },
+      valueDeformatter: { type: Function },
       
       /**
-       * Set this to configure configure custom logic to detect whether value is changed or not.
+       * Set this to configure custom logic to detect whether value is changed or not.
        * By default it will check by equality check of `value` and `originalValue`.
        * It must return a Boolean.
        * Function receives 2 arguments: (val1, val2). Should return `true` when both values are same otherwise `false`.
        */
-      isValueChanged: { type: Function },
+      valueComparator: { type: Function },
       
       /**
        * Set this to true to make icon clickable.
        * Default is false
        */
-      hasClickableIcon: { type: Boolean },
+      clickableIcon: { type: Boolean },
       
       /**
        * Formatted string which is returned by `formattedValueGetter`
@@ -331,7 +331,7 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * True when `originalValue` available and it's not equal to `value`
        */
-      _isValueUpdated: { type: Boolean, reflect: true },
+      _valueUpdated: { type: Boolean, reflect: true },
 
       /**
        * A reference to the input element.
@@ -348,7 +348,7 @@ export class DwInput extends DwFormElement(LitElement) {
       'mdc-text-field--with-leading-icon': this.icon ? true : false,
       'mdc-text-field--with-trailing-icon': this.iconTrailing ? true : false,
       'mdc-text-field--textarea': this.multiline,
-      'mdc-text-field--dense': this.isDense && !this.multiline
+      'mdc-text-field--dense': this.dense && !this.multiline
     };
 
     const labelClasses = {
@@ -365,17 +365,17 @@ export class DwInput extends DwFormElement(LitElement) {
 
         ${this.icon
         ? html`
-          <span class="mdc-text-field__icon" tabindex="${this.hasClickableIcon ? 0 : -1}" role="${this.hasClickableIcon ? 'button' : ''}">
+          <div class="mdc-text-field__icon" tabindex="${this.clickableIcon ? 0 : -1}" role="${this.clickableIcon ? 'button' : ''}">
             <dw-icon name="${this.icon}" ?disabled="${this.disabled}"></dw-icon>
-          </span>`
+          </div>`
           : html``
         }
 
         ${this.iconTrailing
         ? html`
-          <span class="mdc-text-field__icon" tabindex="${this.hasClickableIcon ? 0 : -1}" role="${this.hasClickableIcon ? 'button' : ''}">
+          <div class="mdc-text-field__icon" tabindex="${this.clickableIcon ? 0 : -1}" role="${this.clickableIcon ? 'button' : ''}">
             <dw-icon name="${this.iconTrailing}" ?disabled="${this.disabled}"></dw-icon>
-          </span>`
+          </div>`
           : html``
         }
 
@@ -419,7 +419,7 @@ export class DwInput extends DwFormElement(LitElement) {
       this.formattedValue = this.formattedValueGetter(value);
     }
 
-    if (this.highLightOnChanged) { 
+    if (this.highlightChanged) { 
       this._setIsValueUpdated();
     }
 
@@ -448,7 +448,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.autoSelect = false;
     this.multiline = false;
     this.rows = 2;
-    this.isDense = false;
+    this.dense = false;
     this.hintPersistent = false;
     this.charCounter = false;
     this.maxLength = 524288;
@@ -457,11 +457,11 @@ export class DwInput extends DwFormElement(LitElement) {
       return value;
     };
 
-    this.focusedValueGetter = function (value) {
+    this.valueDeformatter = function (value) {
       return value;
     };
 
-    this.isValueChanged = function (value, originalValue) { 
+    this.valueComparator = function (value, originalValue) { 
       return value !== originalValue;
     }
   }
@@ -662,7 +662,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Selects input text if `autoSelect` property is true
    */
   _onFocus() { 
-    this.formattedValue = this.focusedValueGetter(this.value, this.formattedValue);
+    this.formattedValue = this.valueDeformatter(this.value, this.formattedValue);
 
     if (this.autoSelect) {
       //Set timeout so that we can always get selected text when autoSelect is true
@@ -701,13 +701,13 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
-   * Sets `_isValueUpdated` is value is changed. It's used to high-light textfield
+   * Sets `_valueUpdated` is value is changed. It's used to high-light textfield
    */
   _setIsValueUpdated() { 
     let value = this.value;
     let originalValue = this.originalValue;
 
-    this._isValueUpdated = !!(originalValue && value && this.isValueChanged(value, originalValue, this.formattedValue));
+    this._valueUpdated = !!(originalValue && value && this.valueComparator(value, originalValue, this.formattedValue));
   }
 }
 

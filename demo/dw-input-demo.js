@@ -85,7 +85,7 @@ class DwInputDemo extends LitElement {
       <dw-input label="Name" value="Simmy"></dw-input>
 
       <h4>Highlight field on value change</h4>
-      <dw-input label="First name" value="Ruchita" highLightOnChanged originalValue="Ruchita" required errorMessage="Required"></dw-input>
+      <dw-input label="First name" value="Ruchita" highlightChanged originalValue="Ruchita" required errorMessage="Required"></dw-input>
 
       <h4>Text field with prefix icon</h4>
       <dw-input label="Name" icon="search"></dw-input>
@@ -103,13 +103,13 @@ class DwInputDemo extends LitElement {
       <dw-input id="customValidatorInupt" hint="Type cat here" errorMessage="Value must be a 'cat'" label="Animal name" palceholder="Type cat"></dw-input>
 
       <h4>Auto formatting</h4>
-      <dw-input label="Currency" allowedPattern="[0-9]" value="456895" .focusedValueGetter="${this._getValue}" .formattedValueGetter="${this._getFormattedValue}" required errorMessage="Required"></dw-input>
+      <dw-input label="Currency" allowedPattern="[0-9]" value="456895" .valueDeformatter="${this._getValue}" .formattedValueGetter="${this._getFormattedValue}" required errorMessage="Required"></dw-input>
 
       <h4>Max length</h4>
       <dw-input maxLength="5" label="Name" charCounter></dw-input>
 
       <h4>Dense field</h4>
-      <dw-input label="Name" isDense></dw-input>
+      <dw-input label="Name" dense></dw-input>
       
       <h4>Auto-select text on focus</h4>
       <dw-input label="First name" value="Hello" autoSelect required errorMessage="Required"></dw-input>
