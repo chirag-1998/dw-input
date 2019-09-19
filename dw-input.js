@@ -301,7 +301,7 @@ export class DwInput extends DwFormElement(LitElement) {
        * It must return a Boolean.
        * Function receives 2 arguments: (val1, val2). Should return `true` when both values are same otherwise `false`.
        */
-      valueComparator: { type: Function },
+      valueEqualityChecker: { type: Function },
       
       /**
        * Set this to true to make icon clickable.
@@ -414,7 +414,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.charCounter = false;
     this.maxLength = 524288;
 
-    this.valueComparator = function (value, originalValue) { 
+    this.valueEqualityChecker = function (value, originalValue) { 
       return value !== originalValue;
     }
   }
@@ -669,7 +669,7 @@ export class DwInput extends DwFormElement(LitElement) {
     let value = this.value;
     let originalValue = this.originalValue;
 
-    this._valueUpdated = !!(originalValue && value && this.valueComparator(value, originalValue));
+    this._valueUpdated = !!(originalValue && value && this.valueEqualityChecker(value, originalValue));
   }
 }
 
