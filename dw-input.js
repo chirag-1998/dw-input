@@ -14,7 +14,7 @@ import { MDCTextField } from '@material/textfield';
 import { MDCTextFieldCharacterCounter } from '@material/textfield/character-counter';
 import { TextfieldStyle } from './mdc-text-field-css.js';
 import { DwFormElement } from '@dreamworld/dw-form/dw-form-element';
-import '@dreamworld/dw-icon/dw-icon';
+import '@dreamworld/dw-icon-button/dw-icon-button';
 
 export class DwInput extends DwFormElement(LitElement) {
   static get styles() {
@@ -163,6 +163,11 @@ export class DwInput extends DwFormElement(LitElement) {
   
         .mdc-text-field__icon{
           outline: none;
+        }
+      
+        dw-icon-button{
+          width: 24px;
+          height: 24px;
         }
       `
     ];
@@ -348,7 +353,7 @@ export class DwInput extends DwFormElement(LitElement) {
         ${this.icon
         ? html`
           <div class="mdc-text-field__icon" tabindex="${this.clickableIcon ? 0 : -1}" role="${this.clickableIcon ? 'button' : ''}">
-            <dw-icon name="${this.icon}" ?disabled="${this.disabled}"></dw-icon>
+            <dw-icon-button icon="${this.icon}" ?disabled="${this.disabled}"></dw-icon-button>
           </div>`
           : html``
         }
@@ -356,7 +361,7 @@ export class DwInput extends DwFormElement(LitElement) {
         ${this.iconTrailing
         ? html`
           <div class="mdc-text-field__icon" tabindex="${this.clickableIcon ? 0 : -1}" role="${this.clickableIcon ? 'button' : ''}">
-            <dw-icon name="${this.iconTrailing}" ?disabled="${this.disabled}"></dw-icon>
+            <dw-icon-button icon="${this.iconTrailing}" ?disabled="${this.disabled}"></dw-icon-button>
           </div>`
           : html``
         }
