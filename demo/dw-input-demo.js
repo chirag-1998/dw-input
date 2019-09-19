@@ -13,6 +13,7 @@ import '../dw-input.js';
 import { ThemeStyle } from '@dreamworld/material-styles/theme';
 import '@material/mwc-switch';
 import '@material/mwc-formfield';
+import './formatted-input.js';
 
 class DwInputDemo extends LitElement {
   static get styles() {
@@ -25,7 +26,8 @@ class DwInputDemo extends LitElement {
           padding: 24px;
         }
 
-        dw-input{
+        dw-input,
+        formatted-input{
           margin-bottom: 16px;
           max-width: 300px;
         }
@@ -103,7 +105,7 @@ class DwInputDemo extends LitElement {
       <dw-input id="customValidatorInupt" hint="Type cat here" errorMessage="Value must be a 'cat'" label="Animal name" palceholder="Type cat"></dw-input>
 
       <h4>Auto formatting</h4>
-      <dw-input label="Currency" allowedPattern="[0-9]" value="456895" .valueDeformatter="${this._getValue}" .formattedValueGetter="${this._getFormattedValue}" required errorMessage="Required"></dw-input>
+      <formatted-input label="Currency" allowedPattern="[0-9]" value="456895" required errorMessage="Required"></formatted-input>
 
       <h4>Max length</h4>
       <dw-input maxLength="5" label="Name" charCounter></dw-input>
@@ -131,14 +133,6 @@ class DwInputDemo extends LitElement {
       return value === 'cat';
     }
   }
-
-  _getFormattedValue(value) { 
-    return Number(value).toLocaleString();
-  }
-
-  _getValue(value) {
-    return value;
-   }
 }
 
 window.customElements.define('dw-input-demo', DwInputDemo);
