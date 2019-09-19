@@ -295,20 +295,13 @@ export class DwInput extends DwFormElement(LitElement) {
        */
       highlightChanged: { type: Boolean },
 
-      /**
-       * Set this to auto-format value on blur.
-       * It provides user types value as a argument
-       * It must be return a string or null
-       */
-      formattedValueGetter: { type: Function },
+      // /**
+      //  * Set this to auto-format value on blur.
+      //  * It provides user types value as a argument
+      //  * It must be return a string or null
+      //  */
+      // formattedValueGetter: { type: Function },
 
-      /**
-       * Set this to change value on focus. e.g. on focus show original value instead formatted value
-       * It provides user types value as a argument
-       * It must be return a string or null
-       */
-      valueDeformatter: { type: Function },
-      
       /**
        * Set this to configure custom logic to detect whether value is changed or not.
        * By default it will check by equality check of `value` and `originalValue`.
@@ -323,10 +316,6 @@ export class DwInput extends DwFormElement(LitElement) {
        */
       clickableIcon: { type: Boolean },
       
-      /**
-       * Formatted string which is returned by `formattedValueGetter`
-       */
-      formattedValue: { type: String },
 
       /**
        * True when `originalValue` available and it's not equal to `value`
@@ -352,7 +341,7 @@ export class DwInput extends DwFormElement(LitElement) {
     };
 
     const labelClasses = {
-      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation_.isFocused_) || this.value || this.value === 0 || this.formattedValue
+      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation_.isFocused_) || this.value || this.value === 0
     };
 
     const helperTextClasses = {
@@ -405,21 +394,21 @@ export class DwInput extends DwFormElement(LitElement) {
     `;
   }
 
-  set value(value) {
-    const oldValue = this._value;
-    
-    if(value === oldValue){
+
+  set value(value){
+    this._setValue(value, false);
+  }
+
+  _setValue(value, internal) {
+    if (value == this._value) {
       return;
     }
-    
+
     this._value = value;
 
-    // This is for format value when `value` is changed programmatically 
-    if (this._textFieldInstance && this._textFieldInstance.value !== this.formattedValueGetter(value) && this._textFieldInstance.value !== value) { 
-      this.formattedValue = this.formattedValueGetter(value);
-    }
+    //TODO: Dispatch value-changed event.
 
-    if (this.highlightChanged) { 
+    if (this.highlightChanged) {
       this._setIsValueUpdated();
     }
 
@@ -427,8 +416,46 @@ export class DwInput extends DwFormElement(LitElement) {
       this.validate();
     }
 
-    this.requestUpdate('value', oldValue);
-  } 
+    if(!internal) {
+      this._updateTextfieldValue();
+    }
+
+  }
+
+
+  /**
+   * Updates text-field's value based on the current value of `value` property.
+   * It applies formatting.
+   */
+  _updateTextfieldValue() {
+    this._textFieldInstance.value = this.formatText(value);
+  }
+
+  //TODO: Remove
+  // set value(value) {
+  //   const oldValue = this._value;
+    
+  //   if(value === oldValue){
+  //     return;
+  //   }
+    
+  //   this._value = value;
+
+  //   // This is for format value when `value` is changed programmatically 
+  //   if (this._textFieldInstance && this._textFieldInstance.value !== this.formattedValueGetter(value) && this._textFieldInstance.value !== value) { 
+  //     this.formattedValue = this.formattedValueGetter(value);
+  //   }
+
+  //   if (this.highlightChanged) { 
+  //     this._setIsValueUpdated();
+  //   }
+
+  //   if (value && this.invalid) {
+  //     this.validate();
+  //   }
+
+  //   this.requestUpdate('value', oldValue);
+  // } 
 
   get value() {
     return this._value;
@@ -440,7 +467,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.required = false;
     this.readOnly = false;
     this.placeholder = '';
-    this.value = '';
+    this._value = '';
     this.errorMessage = '';
     this.name = '';
     this.pattern = '(.*?)';
@@ -452,14 +479,6 @@ export class DwInput extends DwFormElement(LitElement) {
     this.hintPersistent = false;
     this.charCounter = false;
     this.maxLength = 524288;
-    this.formattedValue = '';
-    this.formattedValueGetter = function (value) {
-      return value;
-    };
-
-    this.valueDeformatter = function (value) {
-      return value;
-    };
 
     this.valueComparator = function (value, originalValue) { 
       return value !== originalValue;
@@ -471,7 +490,6 @@ export class DwInput extends DwFormElement(LitElement) {
       <input type="text"
         id="tf-outlined"
         class="mdc-text-field__input"
-        .value="${this.formattedValue}"
         .name="${this.name}"
         ?disabled="${this.disabled}"
         ?required="${this.required}"
@@ -508,7 +526,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
   firstUpdated() {
     this._initMdcTextField();
-    this._setFormattedValue();
+    this._updateTextfieldValue();
 
     // Setting timeout here for proper label placement
     setTimeout(() => {
@@ -562,32 +580,42 @@ export class DwInput extends DwFormElement(LitElement) {
     this._textFieldInstance.layout();
   }
 
-  /**
-   * Sets formatted value
-   */
-  _setFormattedValue() { 
-    let formattedValue = this.formattedValueGetter(this.value);
-    
-    if(this.formattedValue !== formattedValue){
-      this.formattedValue = formattedValue;
-      return;
-    }
 
-    // Below logic is for when value is same on blur input will not show formatted value as value is not changed
-    // Problem with example::  Write 1234 it will format to 1,234. on focus it will be 1234. now blur. value will not be changed to 1,234
-    if (this.formattedValue === formattedValue && this._textFieldInstance.input_.value !== formattedValue) { 
-      this.formattedValue = null;
-    
-      setTimeout(() => { 
-        this.formattedValue = formattedValue;
-        
-        // For proper label placement
-        setTimeout(() => { 
-          this.layout();
-        });
-      });
-    }
+  parseValue(text) {
+    return text;
   }
+
+  formatText(value) {
+    return value;
+  }
+
+  //TODO: remove
+  // /**
+  //  * Sets formatted value
+  //  */
+  // _setFormattedValue() { 
+  //   let formattedValue = this.formattedValueGetter(this.value);
+    
+  //   if(this.formattedValue !== formattedValue){
+  //     this.formattedValue = formattedValue;
+  //     return;
+  //   }
+
+  //   // Below logic is for when value is same on blur input will not show formatted value as value is not changed
+  //   // Problem with example::  Write 1234 it will format to 1,234. on focus it will be 1234. now blur. value will not be changed to 1,234
+  //   if (this.formattedValue === formattedValue && this._textFieldInstance.input_.value !== formattedValue) { 
+  //     this.formattedValue = null;
+    
+  //     setTimeout(() => { 
+  //       this.formattedValue = formattedValue;
+        
+  //       // For proper label placement
+  //       setTimeout(() => { 
+  //         this.layout();
+  //       });
+  //     });
+  //   }
+  // }
 
   /**
    * invokes on keys press
@@ -618,15 +646,10 @@ export class DwInput extends DwFormElement(LitElement) {
       this._checkPatternValidity();
     }
 
-    if (this.invalid) { 
-      this.validate();
+    let value = this.parseValue(this._textFieldInstance.value);
+    if(value !== undefined) {
+      this._setValue(value, true);
     }
-    
-    this.value = this._textFieldInstance.value;
-
-    this.dispatchEvent(new CustomEvent('value-changed', {
-      detail: { value: this._textFieldInstance.value }
-    }));
 
     this._patternAlreadyChecked = false;
   }
@@ -662,8 +685,6 @@ export class DwInput extends DwFormElement(LitElement) {
    * Selects input text if `autoSelect` property is true
    */
   _onFocus() { 
-    this.formattedValue = this.valueDeformatter(this.value, this.formattedValue);
-
     if (this.autoSelect) {
       //Set timeout so that we can always get selected text when autoSelect is true
       setTimeout(() => {
@@ -677,7 +698,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Validates input value
    */
   _onInputBlur() { 
-    this._setFormattedValue();
+    this._updateTextfieldValue();
     this.validate();
   }
 
@@ -694,7 +715,7 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     if (this.validator) { 
-      isValid = this.validator(this.value, this.formattedValue);
+      isValid = this.validator(this.value);
     }
 
     return isValid;
@@ -707,7 +728,7 @@ export class DwInput extends DwFormElement(LitElement) {
     let value = this.value;
     let originalValue = this.originalValue;
 
-    this._valueUpdated = !!(originalValue && value && this.valueComparator(value, originalValue, this.formattedValue));
+    this._valueUpdated = !!(originalValue && value && this.valueComparator(value, originalValue));
   }
 }
 
