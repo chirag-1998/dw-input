@@ -169,6 +169,12 @@ export class DwInput extends DwFormElement(LitElement) {
           width: 24px;
           height: 24px;
         }
+
+        :host([clickableIcon]) dw-icon-button.mdc-text-field__icon{
+          pointer-events: auto;
+          cursor: pointer;
+        }
+  
       `
     ];
   }
@@ -352,21 +358,19 @@ export class DwInput extends DwFormElement(LitElement) {
 
         ${this.icon
         ? html`
-          <div class="mdc-text-field__icon" tabindex="${this.clickableIcon ? 0 : -1}" role="${this.clickableIcon ? 'button' : ''}">
-            <dw-icon-button icon="${this.icon}" ?disabled="${this.disabled}"></dw-icon-button>
-          </div>`
-          : html``
-        }
-
-        ${this.iconTrailing
-        ? html`
-          <div class="mdc-text-field__icon" tabindex="${this.clickableIcon ? 0 : -1}" role="${this.clickableIcon ? 'button' : ''}">
-            <dw-icon-button icon="${this.iconTrailing}" ?disabled="${this.disabled}"></dw-icon-button>
-          </div>`
+            <dw-icon-button class="mdc-text-field__icon" icon="${this.icon}" ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
+            `
           : html``
         }
 
         ${this.multiline ? html`${ this.textareaTemplate}` : html`${this.inputTemplate}`}
+        
+        ${this.iconTrailing
+        ? html`
+            <dw-icon-button class="mdc-text-field__icon" icon="${this.iconTrailing}" ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
+            `
+          : html``
+        }
 
         <div class="mdc-notched-outline">
           <div class="mdc-notched-outline__leading"></div>
@@ -420,7 +424,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.maxLength = 524288;
 
     this.valueEqualityChecker = function (value, originalValue) { 
-      return value !== originalValue;
+      return value != originalValue;
     }
   }
 
