@@ -25,17 +25,28 @@
   "homepage": "https://github.com/DreamworldSolutions/dw-input#readme",
   "dependencies": {
     "@dreamworld/dw-form": "^1.0.1",
-    "@dreamworld/dw-icon-button": "add-hover-style", 
+    "@dreamworld/dw-icon-button": "add-hover-style",
     "@material/textfield": "^3.1.0",
     "lit-element": "^2.2.1"
   },
   "devDependencies": {
-    "semantic-release": "beta",
     "@dreamworld/material-styles": "^1.1.0",
+    "@material/mwc-formfield": "^0.7.1",
     "@material/mwc-switch": "^0.7.1",
-    "@material/mwc-formfield": "^0.7.1"
+    "semantic-release": "beta"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "resolutions": {
+    "@material/mwc-base": "0.7.0",
+    "@material/base": "3.1.0",
+    "@material/feature-targeting": "3.1.0",
+    "@material/ripple": "3.2.0",
+    "@material/rtl": "3.2.0",
+    "@material/theme": "3.1.0",
+    "@material/typography": "3.1.0",
+    "@material/animation": "3.1.0",
+    "@material/dom": "3.1.0"
   }
 }
