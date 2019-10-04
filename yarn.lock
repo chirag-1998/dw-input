@@ -150,16 +150,7 @@
     "@material/theme" "^3.1.0"
     tslib "^1.9.3"
 
-"@material/mwc-base@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@material/mwc-base/-/mwc-base-0.6.0.tgz#2077b5f94c3d8fa2a65736b02c3d380314ea1154"
-  integrity sha512-AiMEoU3dkLhuEnK5HJ0yMrdcyq5rUq9LdooxOSLMzPRr/ALT8YS14/oklufYiPagehzJcL0MeiyL40OlSpkyBA==
-  dependencies:
-    "@material/base" "^1.0.0"
-    lit-element "^2.0.1"
-    lit-html "^1.0.0"
-
-"@material/mwc-base@^0.7.0":
+"@material/mwc-base@0.7.0", "@material/mwc-base@^0.6.0", "@material/mwc-base@^0.7.0":
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@material/mwc-base/-/mwc-base-0.7.0.tgz#c7469a469226baa60a209607714eb8770e5fc50f"
   integrity sha512-dOOWWOF4KQ0GEX5E3ZuUH1NNR5DGH8lc7zi3DDgjzbTFLB51q9h4xgEhPgi6wOBM3KZdfvs57+R8m4yuxZqgag==
