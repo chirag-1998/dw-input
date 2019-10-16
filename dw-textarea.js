@@ -45,6 +45,7 @@ export class DwTextarea extends LitElement {
           outline:none;
           background-color: transparent;
           color: inherit;
+          font-family: inherit;
           font-size: inherit;
           font-weight: inherit;
           letter-spacing: inherit;
