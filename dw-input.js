@@ -15,7 +15,7 @@ import { MDCTextFieldCharacterCounter } from '@material/textfield/character-coun
 import { TextfieldStyle } from './mdc-text-field-css.js';
 import { DwFormElement } from '@dreamworld/dw-form/dw-form-element';
 import '@dreamworld/dw-icon-button/dw-icon-button';
-import './dw-textarea.js';
+import './dw-textarea.js'; 
 
 export class DwInput extends DwFormElement(LitElement) {
   static get styles() {
