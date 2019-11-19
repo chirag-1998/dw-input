@@ -15,6 +15,9 @@ class DwAutogrowTextareaDemo extends LitElement {
   static get styles() {
     return [
       css`
+        :host{
+          display: block;
+        }
         dw-textarea {
           max-width: 300px;
           background-color: #0000001a;

@@ -15,11 +15,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <title>Input demo</title>
     <script type="module" src="./dw-input-demo.js"></script>
     <script type="module" src="./dw-autogrow-textarea-demo.js"></script>
+    <script type="module" src="../dw-email-input.js"></script>
 
     <style>
       body {
         margin:0;
         overflow-x: hidden;
+      }
+      
+      dw-email-input,
+      dw-autogrow-textarea-demo,
+      h1{
+        padding-left: 24px;
+      }
+      
+      dw-email-input{
+        max-width: 300px;
       }
     </style>
   </head>
@@ -27,6 +38,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <body>
     <h1>dw-input demo</h1>
     <dw-input-demo></dw-input-demo>
+    
+    <h1>dw-email-input demo</h1>
+    <dw-email-input label="Email"></dw-email-input>
 
     <h1>dw-autogrow-textarea demo</h1>
     <dw-autogrow-textarea-demo></dw-autogrow-textarea-demo>
