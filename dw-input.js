@@ -333,6 +333,11 @@ export class DwInput extends DwFormElement(LitElement) {
        * Applicable when `multiline` is true
        */
       disabledEnter: { type: Boolean },
+      
+      /**
+       * Set to true to trim value on input blur 
+       */
+      truncateOnBlur: { type: Boolean },
 
       /**
        * True when `originalValue` available and it's not equal to `value`
@@ -435,6 +440,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.charCounter = false;
     this.maxLength = 524288;
     this.minHeight = 42;
+    this.truncateOnBlur = false;
 
     this.valueEqualityChecker = function (value, originalValue) { 
       return value != originalValue;
@@ -582,9 +588,15 @@ export class DwInput extends DwFormElement(LitElement) {
    * It applies formatting.
    */
   _updateTextfieldValue() {
-    if (this._textFieldInstance) { 
-      this._textFieldInstance.value = this.formatText(this.value);
+    if (!this._textFieldInstance) {
+      return;
     }
+    
+    if(this.truncateOnBlur && this.value){
+      this.value = this.value.trim();
+    }
+    
+    this._textFieldInstance.value = this.formatText(this.value);
   }
 
   /**
