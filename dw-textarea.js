@@ -148,7 +148,7 @@ export class DwTextarea extends LitElement {
         @blur="${this._onInputBlur}"
         @cut="${this._resize}"
         @paste="${this._resize}"
-        @keyup="${this._onKeyUp}"
+        @keypress="${this._onKeyPress}"
         @keydown="${this._onKeyDown}"></textarea>`;
   }
 
@@ -255,10 +255,10 @@ export class DwTextarea extends LitElement {
   }
 
   /**
-   * Invoked when any key up on `textarea`.
+   * Invoked when any key press on `textarea`.
    * @protected
    */
-  _onKeyUp(e) {
+  _onKeyPress(e) {
     var keyCode = e.keyCode || e.which;
 
     //If enter key and disabled Enter.
