@@ -146,8 +146,8 @@ export class DwTextarea extends LitElement {
         .placeholder="${this.placeholder}"
         @input="${this._onInput}"
         @blur="${this._onInputBlur}"
-        @cut="${this.resize}"
-        @paste="${this.resize}"
+        @cut="${this._resize}"
+        @paste="${this._resize}"
         @keyup="${this._onKeyUp}"
         @keydown="${this._onKeyDown}"></textarea>`;
   }
