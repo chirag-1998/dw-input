@@ -148,6 +148,7 @@ export class DwTextarea extends LitElement {
         @blur="${this._onInputBlur}"
         @cut="${this.resize}"
         @paste="${this.resize}"
+        @keyup="${this._onKeyUp}"
         @keydown="${this._onKeyDown}"></textarea>`;
   }
 
@@ -251,6 +252,20 @@ export class DwTextarea extends LitElement {
     }
     
     this._textarea.style.height = scrollHeight + 'px';
+  }
+
+  /**
+   * Invoked when any key up on `textarea`.
+   * @protected
+   */
+  _onKeyUp(e) {
+    var keyCode = e.keyCode || e.which;
+
+    //If enter key and disabled Enter.
+    if(keyCode === 13 && this.disabledEnter) {
+      e.preventDefault && e.preventDefault();
+      return false;
+    }
   }
 
   /**
