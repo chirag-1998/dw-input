@@ -593,7 +593,7 @@ export class DwInput extends DwFormElement(LitElement) {
     }
     
     if(this.truncateOnBlur && this.value){
-      this.value = this.value.trim();
+      this.value = typeof this.value === 'string' ? this.value.trim() : this.value;
     }
     
     this._textFieldInstance.value = this.formatText(this.value);
