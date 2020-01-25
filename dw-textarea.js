@@ -190,18 +190,29 @@ export class DwTextarea extends LitElement {
 
   /**
    * Set focus to end of text.
+   * This method is just for backward compatibility.
    * @protected
    */
   focusToEnd() {
-    if (typeof this._textarea.selectionStart == "number") {
-      this._textarea.selectionStart = this._textarea.selectionEnd = this._textarea.value.length;
-      this._textarea.focus();
-    } else if (typeof ele.createTextRange != "undefined") {
-      this._textarea.focus();
-      let range = this._textarea.createTextRange();
-      range.collapse(false);
-      range.select();
-    }
+    this.moveToEnd();
+  }
+
+  /**
+   * Move focus to end of text.
+   * @protected
+   */
+  moveToEnd() {
+    this.updateComplete.then(() => {
+      if (typeof this._textarea.selectionStart == "number") {
+        this._textarea.selectionStart = this._textarea.selectionEnd = this._textarea.value.length;
+        this._textarea.focus();
+      } else if (typeof ele.createTextRange != "undefined") {
+        this._textarea.focus();
+        let range = this._textarea.createTextRange();
+        range.collapse(false);
+        range.select();
+      }
+    })
   }
 
   /**
