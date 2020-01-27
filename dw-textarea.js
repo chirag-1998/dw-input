@@ -254,14 +254,14 @@ export class DwTextarea extends LitElement {
       return;
     }
 
-    this._textarea.style.height = 'auto';
+    this.style.height = this._textarea.style.height = 'auto';
     let scrollHeight = this._textarea.scrollHeight;
     if(scrollHeight < this.minHeight) {
-      this._textarea.style.height = this.minHeight + 'px';
+      this.style.height = this._textarea.style.height = this.minHeight + 'px';
       return;
     }
     
-    this._textarea.style.height = scrollHeight + 'px';
+    this.style.height = this._textarea.style.height = scrollHeight + 'px';
   }
 
   /**
