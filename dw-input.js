@@ -177,7 +177,7 @@ export class DwInput extends DwFormElement(LitElement) {
         }
 
         /* Add a way to customize the background color of the text field when showAsFilled is true */
-        .mdc-text-field:not(.mdc-text-field--disabled) {
+        :host([showAsFilled]) .mdc-text-field:not(.mdc-text-field--disabled) {
           background-color: var(--dw-input-fill-color, whitesmoke);
         }
   
@@ -348,7 +348,7 @@ export class DwInput extends DwFormElement(LitElement) {
        * Input property
        * Set to true to render input in filled style
        */
-      showAsFilled: { type: Boolean, value: false},
+      showAsFilled: { type: Boolean, value: false, reflect: true},
 
       /**
        * True when `originalValue` available and it's not equal to `value`
