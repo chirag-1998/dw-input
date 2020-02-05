@@ -26,6 +26,10 @@ class DwInputDemo extends LitElement {
           padding: 24px;
         }
 
+        :host([dark-theme]){
+          --dw-input-fill-color: #333;
+        }
+
         dw-input,
         formatted-input{
           margin-bottom: 16px;
@@ -73,6 +77,9 @@ class DwInputDemo extends LitElement {
 
       <h4>Required text field</h4>
       <dw-input label="First name" required errorMessage="Required"></dw-input>
+
+      <h4>Filled</h4>
+      <dw-input label="First name" showAsFilled required errorMessage="Required"></dw-input>
 
       <h4>Text field without label</h4>
       <dw-input noLabel placeholder="Enter Name here"></dw-input>
