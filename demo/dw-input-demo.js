@@ -28,6 +28,7 @@ class DwInputDemo extends LitElement {
 
         :host([dark-theme]){
           --dw-input-fill-color: #333;
+          --dw-input-filled-bottom-border-color: rgba(255,255,255, 0.42);
         }
 
         dw-input,
