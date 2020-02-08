@@ -188,7 +188,11 @@ export class DwInput extends DwFormElement(LitElement) {
         :host([showAsFilled]) .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mdc-text-field__input:hover {
           border-bottom-color: var(--dw-input-filled-hover-bottom-border-color, rgba(0, 0, 0, 0.87));
         }
-  
+
+        :host([noHintWrap]) .mdc-text-field:not(.mdc-text-field--disabled) + .mdc-text-field-helper-line .mdc-text-field-helper-text,
+        :host([noHintWrap]) .mdc-text-field--disabled + .mdc-text-field-helper-line .mdc-text-field-helper-text {
+          white-space: nowrap;
+        }
       `
     ];
   }
@@ -357,6 +361,11 @@ export class DwInput extends DwFormElement(LitElement) {
        * Set to true to render input in filled style
        */
       showAsFilled: { type: Boolean, value: false, reflect: true},
+
+      /**
+       * `true` if when to show hint text in oneline. Default hint text is shown in dropdown width area in multiline.
+       */
+      noHintWrap: { type: Boolean, reflect: true },
 
       /**
        * True when `originalValue` available and it's not equal to `value`

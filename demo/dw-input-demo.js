@@ -132,6 +132,25 @@ class DwInputDemo extends LitElement {
 
       <h4>Disabled</h4>
       <dw-input label="Animal name" value="Cat" disabled icon="insert_emoticon"></dw-input>
+
+      <h4>Hint Text in multiline</h4>
+      <dw-input 
+        label="Animal name" 
+        value="Cat" 
+        hintPersistent
+        .hint="${'For Crummy trusts, Trust Type cannot be changed after a gift has been made'}"
+        icon="insert_emoticon">
+      </dw-input>
+
+      <h4>Hint Text in Single line</h4>
+      <dw-input 
+        label="Animal name" 
+        value="Cat" 
+        hintPersistent
+        noHintWrap
+        .hint="${'For Crummy trusts, Trust Type cannot be changed after a gift has been made'}"
+        icon="insert_emoticon">
+      </dw-input>
     `;
   }
 
